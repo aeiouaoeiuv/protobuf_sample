@@ -1,0 +1,8 @@
+syntax = "proto2";
+
+package pkgHeader;
+
+message Header {
+  required int32  msgcode = 1;
+}
+

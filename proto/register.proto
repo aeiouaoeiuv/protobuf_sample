@@ -1,0 +1,66 @@
+syntax = "proto2";
+
+import "header.proto";
+
+package pkgRegister;
+
+message RegisterReq {
+  // 嵌入其他proto文件的消息
+  required pkgHeader.Header header = 1;
+
+  // >= 0的数用int32
+  required int32  int32_id = 2;
+
+  // 数值可能 < 0的负数用sint32,因int32对于负数编码效率不高
+  required sint32 sint32_id = 3;
+
+  // double 示例
+  required double double_id = 4;
+
+  // float 示例
+  required float  float_id = 5;
+
+  // bool 示例
+  required bool   bool_flag = 6;
+
+  // 字符串用string,注意UTF8编码
+  required string string_name = 7;
+
+  // 字节数据
+  required bytes  bytes_data = 8;
+
+  // optional 示例
+  optional string optional_str = 9;
+
+  // optional with default
+  optional string optional_default_str = 10 [default = "This is default string in proto."];
+
+  enum Corpus {
+    UNIVERSAL = 0;
+    WEB = 1;
+    IMAGES = 2;
+  }
+
+  // 枚举示例
+  optional Corpus enum_corpus = 11 [default = WEB];// 不加default描述则系统默认使用UNIVERSAL作为default
+
+  // 嵌套消息示例
+  message NestedMessage {
+    required int32  nested_id = 1;
+    optional string nested_name = 2;
+  }
+
+  // repeated 字符串示例
+  repeated string repeated_string = 12;
+
+  oneof test_oneof {
+    string oneof_name = 13;
+    string oneof_email = 14;
+  }
+}
+
+message RegisterAck {
+  // repeated 消息示例,repeated相当于C++的vector
+  repeated RegisterReq.NestedMessage nested_message = 1;
+}
+
